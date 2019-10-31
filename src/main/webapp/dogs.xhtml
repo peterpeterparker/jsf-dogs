@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Random dog</title>
+</h:head>
+
+<h:body>
+
+	<script type="text/javascript">
+		const randomDog = async () => {
+			const rawResponse = await fetch('https://dog.ceo/api/breeds/image/random');
+
+			if (!rawResponse || !rawResponse.ok) {
+				console.error(rawResponse);
+				return;
+			}
+
+			const result = await rawResponse.text();
+
+			loadResult([{
+				name: 'dog',
+				value: result
+			}]);
+		};
+	</script>
+
+	<h:form>
+		<p:remoteCommand name="loadResult" action="#{dogs.load()}" process="@this" update="@form"/>
+
+		<p:button value="Load a random dog"
+				  immediate="true" process="@this" update="@this" onclick="randomDog();"/>
+
+		<p:outputPanel layout="block" rendered="#{dogs.dog != null}">
+			<img src="#{dogs.dog.message}" alt="A random dog"/>
+		</p:outputPanel>
+	</h:form>
+
+</h:body>
+
+</html>
