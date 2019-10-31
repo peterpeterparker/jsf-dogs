@@ -1,8 +1,11 @@
 import java.io.Serializable;
 
+import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+
+import org.primefaces.PrimeFaces;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -12,6 +15,11 @@ import com.google.gson.GsonBuilder;
 public class DogsBean implements Serializable {
 
 	private DogDTO dog;
+
+	@PostConstruct
+	public void init() {
+		PrimeFaces.current().executeScript("randomDog();");
+	}
 
 	public void load() {
 		final String jsonData = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("dog");
