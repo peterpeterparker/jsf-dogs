@@ -2,7 +2,8 @@
 		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:h="http://java.sun.com/jsf/html"
-	  xmlns:p="http://primefaces.org/ui">
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:f="http://java.sun.com/jsf/core">
 
 <h:head>
 	<title>Random dog</title>
@@ -31,8 +32,10 @@
 	<h:form>
 		<p:remoteCommand name="loadResult" action="#{dogs.load()}" process="@this" update="@form"/>
 
-		<p:button value="Load a random dog"
-				  immediate="true" process="@this" update="@this" onclick="randomDog();"/>
+
+		<p:commandButton value="Load a random dog" onclick="randomDog();">
+			<f:ajax execute="@form" render="@none" />
+		</p:commandButton>
 
 		<p:outputPanel layout="block" rendered="#{dogs.dog != null}">
 			<img src="#{dogs.dog.message}" alt="A random dog"/>
